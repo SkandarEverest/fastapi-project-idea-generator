@@ -13,7 +13,6 @@ class ProjectIdea(BaseModel):
   next_steps: List[str] = Field(..., description="Immediate next actions")
 
 class ResultResponse(BaseModel):
-  theme: str
   domain: str
   constraints: str
 

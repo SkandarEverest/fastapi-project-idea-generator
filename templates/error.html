@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Error - {{ title }}</title>
+  <style>
+    :root {
+      --bg: #fff4f4;
+      --card: #ffffff;
+      --text: #2f1a1a;
+      --muted: #7b5050;
+      --primary: #b03030;
+      --line: #f2cccc;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 0%, #ffe3e3 0%, transparent 35%),
+        var(--bg);
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 12px 24px rgba(140, 24, 24, 0.12);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: var(--primary);
+      font-size: 1.7rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    pre {
+      margin: 0;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff9f9;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 14px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>Something went wrong</h1>
+      <p>The request could not be completed. See the error details below.</p>
+      <pre>{{ error_message }}</pre>
+      <a href="/">← Back</a>
+    </section>
+  </main>
+</body>
+</html>

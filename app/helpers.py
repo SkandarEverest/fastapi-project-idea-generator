@@ -30,7 +30,7 @@ def calculate_cost(prompt_tokens: int, completion_tokens: int) -> float:
   output_cost = (completion_tokens / 1000) * COST_PER_1K_OUTPUT
   return round(input_cost + output_cost, 8)
 
-def build_user_prompt(theme: str, domain: str, constraints: str) -> str:
+def build_user_prompt(domain: str, constraints: str) -> str:
   return f"""
 Generate ONE project idea in JSON with this exact structure:
 
@@ -50,9 +50,8 @@ Rules:
 - Keep it realistic for a student project (8–12 weeks).
 - Prefer public/open data or ethically collectable data.
 - Make it specific enough to implement.
-- Write in the same language as the user's theme (if Indonesian, respond Indonesian).
+- Write in the same language as the user's domain input (if Indonesian, respond Indonesian).
 - Domain: {domain}
-- Theme/Goal: {theme}
 - Constraints: {constraints}
 """.strip()
 
@@ -82,12 +81,12 @@ def _try_parse_json(raw: str) -> Dict[str, Any]:
 
   return json.loads(text)
 
-def call_openai_project_idea(theme: str, domain: str, constraints: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+def call_openai_project_idea(domain: str, constraints: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
   if not OPENAI_API_KEY:
     raise RuntimeError("OPENAI_API_KEY is missing. Set it in your .env file.")
 
   t0 = time.perf_counter()
-  user_prompt = build_user_prompt(theme, domain, constraints)
+  user_prompt = build_user_prompt(domain, constraints)
 
   response = client.chat.completions.create(
     model=MODEL,

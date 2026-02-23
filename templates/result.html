@@ -4,52 +4,208 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Result - {{ title }}</title>
+  <style>
+    :root {
+      --bg: #f3f7fb;
+      --card: #ffffff;
+      --text: #17212f;
+      --muted: #5d6b7e;
+      --primary: #1f4aa5;
+      --line: #d7e1ee;
+      --accent: #e7efff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 20%, #e9f3ff 0%, transparent 35%),
+        radial-gradient(circle at 90% 10%, #e8f8ff 0%, transparent 30%),
+        var(--bg);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 32px auto;
+      padding: 0 16px 24px;
+    }
+
+    .header {
+      margin-bottom: 18px;
+    }
+
+    .title {
+      margin: 0 0 8px;
+      font-size: 1.95rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 18px 14px;
+      box-shadow: 0 12px 24px rgba(18, 41, 84, 0.08);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 1.05rem;
+      color: var(--primary);
+    }
+
+    .idea-title {
+      margin: 0 0 14px;
+      font-size: 1.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .kv-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .kv-grid li {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #fbfdff;
+      font-size: 0.95rem;
+    }
+
+    .label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .content-block {
+      margin-bottom: 12px;
+    }
+
+    .content-block p {
+      margin: 5px 0 0;
+    }
+
+    ul.detail-list {
+      margin: 6px 0 0;
+      padding-left: 20px;
+    }
+
+    ul.detail-list li {
+      margin-bottom: 6px;
+    }
+
+    .obs {
+      background: var(--accent);
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 4px;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .back:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
-<body style="font-family: system-ui; max-width: 860px; margin: 40px auto; padding: 0 16px;">
-  <h1>{{ title }} — Result</h1>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1 class="title">{{ title }} Result</h1>
+      <p class="subtitle">Generated project idea and observability details.</p>
+    </header>
 
-  <h3>Input</h3>
-  <ul>
-    <li><b>Theme</b>: {{ result.theme }}</li>
-    <li><b>Domain</b>: {{ result.domain }}</li>
-    <li><b>Constraints</b>: {{ result.constraints }}</li>
-  </ul>
+    <section class="card">
+      <h2 class="section-title">Input</h2>
+      <ul class="kv-grid">
+        <li>
+          <span class="label">Domain</span>
+          {{ result.domain }}
+        </li>
+        <li>
+          <span class="label">Constraints</span>
+          {{ result.constraints if result.constraints else "-" }}
+        </li>
+      </ul>
+    </section>
 
-  <hr/>
+    <section class="card">
+      <h2 class="idea-title">{{ result.idea.title }}</h2>
 
-  <h2 style="margin: 0 0 8px;">{{ result.idea.title }}</h2>
+      <div class="content-block">
+        <span class="label">Background</span>
+        <p>{{ result.idea.background }}</p>
+      </div>
+      <div class="content-block">
+        <span class="label">Problem Statement</span>
+        <p>{{ result.idea.problem_statement }}</p>
+      </div>
 
-  <p><b>Background</b><br/>{{ result.idea.background }}</p>
-  <p><b>Problem</b><br/>{{ result.idea.problem_statement }}</p>
+      <div class="content-block">
+        <span class="label">Stakeholders</span>
+        <ul class="detail-list">{% for s in result.idea.stakeholders %}<li>{{ s }}</li>{% endfor %}</ul>
+      </div>
 
-  <p><b>Stakeholders</b></p>
-  <ul>{% for s in result.idea.stakeholders %}<li>{{ s }}</li>{% endfor %}</ul>
+      <div class="content-block">
+        <span class="label">Data Needed</span>
+        <ul class="detail-list">{% for d in result.idea.data_needed %}<li>{{ d }}</li>{% endfor %}</ul>
+      </div>
 
-  <p><b>Data Needed</b></p>
-  <ul>{% for d in result.idea.data_needed %}<li>{{ d }}</li>{% endfor %}</ul>
+      <div class="content-block">
+        <span class="label">Method</span>
+        <p>{{ result.idea.method }}</p>
+      </div>
 
-  <p><b>Method</b><br/>{{ result.idea.method }}</p>
+      <div class="content-block">
+        <span class="label">Evaluation</span>
+        <ul class="detail-list">{% for e in result.idea.evaluation %}<li>{{ e }}</li>{% endfor %}</ul>
+      </div>
 
-  <p><b>Evaluation</b></p>
-  <ul>{% for e in result.idea.evaluation %}<li>{{ e }}</li>{% endfor %}</ul>
+      <div class="content-block">
+        <span class="label">Risks</span>
+        <ul class="detail-list">{% for r in result.idea.risks %}<li>{{ r }}</li>{% endfor %}</ul>
+      </div>
 
-  <p><b>Risks</b></p>
-  <ul>{% for r in result.idea.risks %}<li>{{ r }}</li>{% endfor %}</ul>
+      <div class="content-block">
+        <span class="label">Next Steps</span>
+        <ul class="detail-list">{% for n in result.idea.next_steps %}<li>{{ n }}</li>{% endfor %}</ul>
+      </div>
+    </section>
 
-  <p><b>Next Steps</b></p>
-  <ul>{% for n in result.idea.next_steps %}<li>{{ n }}</li>{% endfor %}</ul>
+    <section class="card obs">
+      <h2 class="section-title">Observability</h2>
+      <ul class="kv-grid">
+        <li><span class="label">Model</span>{{ result.model }}</li>
+        <li><span class="label">Latency</span>{{ result.latency_ms }} ms</li>
+        <li><span class="label">Tokens</span>{{ result.total_tokens }} (prompt {{ result.prompt_tokens }}, completion {{ result.completion_tokens }})</li>
+        <li><span class="label">Estimated Cost</span>${{ "%.6f"|format(result.estimated_cost_usd) }}</li>
+        <li><span class="label">Timestamp</span>{{ result.timestamp }}</li>
+      </ul>
+    </section>
 
-  <hr/>
-
-  <h3>Observability</h3>
-  <ul>
-    <li><b>Model</b>: {{ result.model }}</li>
-    <li><b>Latency</b>: {{ result.latency_ms }} ms</li>
-    <li><b>Tokens</b>: {{ result.total_tokens }} (prompt {{ result.prompt_tokens }}, completion {{ result.completion_tokens }})</li>
-    <li><b>Estimated cost</b>: ${{ "%.6f"|format(result.estimated_cost_usd) }}</li>
-    <li><b>Timestamp</b>: {{ result.timestamp }}</li>
-  </ul>
-
-  <p><a href="/">← Back</a></p>
+    <a class="back" href="/">← Back</a>
+  </main>
 </body>
 </html>

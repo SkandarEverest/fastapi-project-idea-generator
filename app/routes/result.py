@@ -1,6 +1,6 @@
 import logging
 from fastapi import APIRouter, Form, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 
 from app.config import APP_TITLE
@@ -14,17 +14,15 @@ templates = Jinja2Templates(directory="templates")
 @router.post("/result", response_model=ResultResponse)
 async def serve_result(
   request: Request,
-  theme: str = Form(...),
   domain: str = Form(...),
   constraints: str = Form(""),
   format: str = Form("json"),
 ):
   try:
-    idea_dict, obs = call_openai_project_idea(theme, domain, constraints)
+    idea_dict, obs = call_openai_project_idea(domain, constraints)
     idea = ProjectIdea(**idea_dict)
 
     result = ResultResponse(
-      theme=theme,
       domain=domain,
       constraints=constraints,
       idea=idea,
@@ -41,10 +39,15 @@ async def serve_result(
 
   except Exception as e:
     logger.exception("Failed to generate result")
-    # If user chose html, show error page-ish using same template
+    # If user chose html, return a styled error page.
     if format == "html":
-      return HTMLResponse(
-        content=f"<h1>Error</h1><pre>{str(e)}</pre><p><a href='/'>Back</a></p>",
+      return templates.TemplateResponse(
+        "error.html",
+        {
+          "request": request,
+          "title": APP_TITLE,
+          "error_message": str(e),
+        },
         status_code=500,
       )
     return JSONResponse(content={"error": str(e)}, status_code=500)
