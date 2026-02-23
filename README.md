@@ -3,8 +3,8 @@
 ## Features
 - GET `/` serves HTML form (Jinja2)
 - POST `/result` returns:
-  - JSON (default) or
-  - HTML (if `format=html`)
+  - HTML (default) or
+  - JSON (if `format=json`)
 - Healthcheck: GET `/health`
 - Swagger: `/docs`
 

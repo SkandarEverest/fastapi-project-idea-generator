@@ -16,7 +16,7 @@ async def serve_result(
   request: Request,
   domain: str = Form(...),
   constraints: str = Form(""),
-  format: str = Form("json"),
+  format: str = Form("html"),
 ):
   try:
     idea_dict, obs = call_openai_project_idea(domain, constraints)

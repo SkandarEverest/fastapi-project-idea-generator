@@ -115,10 +115,38 @@
       background: linear-gradient(130deg, var(--primary), var(--primary-dark));
       cursor: pointer;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     button:hover {
       filter: brightness(1.05);
+    }
+
+    button[disabled] {
+      cursor: not-allowed;
+      opacity: 0.9;
+      filter: grayscale(0.15);
+    }
+
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    button.is-loading .spinner {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     .links {
@@ -162,7 +190,7 @@
     </header>
 
     <section class="card">
-      <form method="post" action="/result">
+      <form method="post" action="/result" id="idea-form">
         <div class="field">
           <label for="domain">Domain</label>
           <input
@@ -186,12 +214,15 @@
           <div class="field" style="margin-bottom: 0;">
             <label for="format">Response Format</label>
             <select id="format" name="format">
-              <option value="json" selected>JSON</option>
-              <option value="html">HTML</option>
+              <option value="json">JSON</option>
+              <option value="html" selected>HTML</option>
             </select>
           </div>
 
-          <button type="submit">Generate</button>
+          <button type="submit" id="generate-btn">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-text">Generate</span>
+          </button>
         </div>
       </form>
     </section>
@@ -201,5 +232,17 @@
       <a class="chip" href="/docs">Docs</a>
     </div>
   </main>
+  <script>
+    const form = document.getElementById("idea-form");
+    const button = document.getElementById("generate-btn");
+    const buttonText = button?.querySelector(".btn-text");
+
+    form?.addEventListener("submit", () => {
+      if (!button) return;
+      button.disabled = true;
+      button.classList.add("is-loading");
+      if (buttonText) buttonText.textContent = "Generating...";
+    });
+  </script>
 </body>
 </html>
