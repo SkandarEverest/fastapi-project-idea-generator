@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Result - {{ title }}</title>
+</head>
+<body style="font-family: system-ui; max-width: 860px; margin: 40px auto; padding: 0 16px;">
+  <h1>{{ title }} — Result</h1>
+
+  <h3>Input</h3>
+  <ul>
+    <li><b>Theme</b>: {{ result.theme }}</li>
+    <li><b>Domain</b>: {{ result.domain }}</li>
+    <li><b>Constraints</b>: {{ result.constraints }}</li>
+  </ul>
+
+  <hr/>
+
+  <h2 style="margin: 0 0 8px;">{{ result.idea.title }}</h2>
+
+  <p><b>Background</b><br/>{{ result.idea.background }}</p>
+  <p><b>Problem</b><br/>{{ result.idea.problem_statement }}</p>
+
+  <p><b>Stakeholders</b></p>
+  <ul>{% for s in result.idea.stakeholders %}<li>{{ s }}</li>{% endfor %}</ul>
+
+  <p><b>Data Needed</b></p>
+  <ul>{% for d in result.idea.data_needed %}<li>{{ d }}</li>{% endfor %}</ul>
+
+  <p><b>Method</b><br/>{{ result.idea.method }}</p>
+
+  <p><b>Evaluation</b></p>
+  <ul>{% for e in result.idea.evaluation %}<li>{{ e }}</li>{% endfor %}</ul>
+
+  <p><b>Risks</b></p>
+  <ul>{% for r in result.idea.risks %}<li>{{ r }}</li>{% endfor %}</ul>
+
+  <p><b>Next Steps</b></p>
+  <ul>{% for n in result.idea.next_steps %}<li>{{ n }}</li>{% endfor %}</ul>
+
+  <hr/>
+
+  <h3>Observability</h3>
+  <ul>
+    <li><b>Model</b>: {{ result.model }}</li>
+    <li><b>Latency</b>: {{ result.latency_ms }} ms</li>
+    <li><b>Tokens</b>: {{ result.total_tokens }} (prompt {{ result.prompt_tokens }}, completion {{ result.completion_tokens }})</li>
+    <li><b>Estimated cost</b>: ${{ "%.6f"|format(result.estimated_cost_usd) }}</li>
+    <li><b>Timestamp</b>: {{ result.timestamp }}</li>
+  </ul>
+
+  <p><a href="/">← Back</a></p>
+</body>
+</html>

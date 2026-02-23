@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{{ title }}</title>
+</head>
+<body style="font-family: system-ui; max-width: 860px; margin: 40px auto; padding: 0 16px;">
+  <h1>{{ title }}</h1>
+  <p>Generator Ide Proyek + Outline Singkat (output bisa JSON atau HTML).</p>
+
+  <form method="post" action="/result" style="display: grid; gap: 12px; margin-top: 16px;">
+    <label>
+      Theme / Goal
+      <input name="theme" required style="width: 100%; padding: 10px;"
+        placeholder="contoh: Ide proyek AI pakai data publik untuk Indonesia"/>
+    </label>
+
+    <label>
+      Domain
+      <input name="domain" required style="width: 100%; padding: 10px;"
+        placeholder="contoh: agriculture / healthcare / education / cybersecurity"/>
+    </label>
+
+    <label>
+      Constraints (opsional)
+      <textarea name="constraints" rows="3" style="width: 100%; padding: 10px;"
+        placeholder="contoh: 8 minggu, tanpa GPU, data publik, implementable"></textarea>
+    </label>
+
+    <label>
+      Response format
+      <select name="format" style="padding: 10px;">
+        <option value="json" selected>JSON</option>
+        <option value="html">HTML</option>
+      </select>
+    </label>
+
+    <button type="submit" style="padding: 10px 14px; cursor: pointer;">Generate ✨</button>
+  </form>
+
+  <p style="margin-top: 20px; opacity: 0.7;">
+    Health: <a href="/health">/health</a> · Docs: <a href="/docs">/docs</a>
+  </p>
+</body>
+</html>
